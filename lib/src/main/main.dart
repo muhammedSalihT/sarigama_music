@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sarigama_music1/splashscreen.dart';
-import 'model/playlist_mod.dart';
+import 'package:sarigama_music1/src/main/splashscreen.dart';
+import '../../model/playlist_mod.dart';
 import 'package:flutter/services.dart';
 
 Future<void> main() async {

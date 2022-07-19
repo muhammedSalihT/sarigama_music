@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:sarigama_music1/functions/favlist_button.dart';
-import 'package:sarigama_music1/song_list.dart';
+import 'package:sarigama_music1/functions/song_list.dart';
 import 'package:sarigama_music1/src/home/home_page.dart';
 
-import 'functions/fav_function.dart';
-import 'src/home/home_screen.dart';
+import '../../functions/fav_function.dart';
+import '../home/home_screen.dart';
 
 class MyFavouriteScreen extends StatefulWidget {
   const MyFavouriteScreen({Key? key}) : super(key: key);

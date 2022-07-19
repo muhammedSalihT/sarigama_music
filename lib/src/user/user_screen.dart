@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sarigama_music1/functions/playlist_fun.dart';
-import 'package:sarigama_music1/login_page.dart';
-import 'package:sarigama_music1/main.dart';
+import 'package:sarigama_music1/src/main/login_page.dart';
+import 'package:sarigama_music1/src/main/main.dart';
 import 'package:sarigama_music1/src/home/user_detail_widget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';

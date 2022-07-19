@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:sarigama_music1/music_player.dart';
-import 'package:sarigama_music1/song_list.dart';
+import 'package:sarigama_music1/src/musicplayer/music_player.dart';
+import 'package:sarigama_music1/functions/song_list.dart';
 import 'package:sarigama_music1/src/home/home_page.dart';
 import 'package:sarigama_music1/src/home/home_screen.dart';
 
-import 'colors.dart';
+import '../../widget/colors.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);

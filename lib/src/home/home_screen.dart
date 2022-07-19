@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:sarigama_music1/music_player.dart';
-import 'package:sarigama_music1/search_screen.dart';
-import 'package:sarigama_music1/song_list.dart';
+import 'package:sarigama_music1/src/musicplayer/music_player.dart';
+import 'package:sarigama_music1/src/home/search_screen.dart';
+import 'package:sarigama_music1/functions/song_list.dart';
 import 'package:sarigama_music1/src/home/home_page.dart';
-import '../../add_playlist.dart';
+import 'add_playlist.dart';
 import '../../functions/favlist_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 

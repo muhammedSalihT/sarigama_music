@@ -1,13 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:sarigama_music1/colors.dart';
-import 'package:sarigama_music1/music_player.dart';
-import '../../ex_music.dart';
-import '../../favourite_screen.dart';
+import 'package:sarigama_music1/widget/colors.dart';
+import 'package:sarigama_music1/src/musicplayer/music_player.dart';
+import '../../widget/ex_music.dart';
+import '../favourite/favourite_screen.dart';
 import 'home_screen.dart';
-import '../../playlist-screen.dart';
-import '../../user_screen.dart';
+import '../playlist/playlist-screen.dart';
+import '../user/user_screen.dart';
 
 List<SongModel> allsong = MyHomeScreen.playlist;
 
