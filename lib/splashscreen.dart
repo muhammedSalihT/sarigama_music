@@ -55,39 +55,32 @@ class _SplashScreenState extends State<SplashScreen> {
                             pause: const Duration(milliseconds: 0),
                             animatedTexts: [
                               RotateAnimatedText("sarigama",
-                                  textStyle: const TextStyle(
+                                  textStyle:  TextStyle(
                                       fontStyle: FontStyle.italic,
-                                      fontFamily: "GrapeNuts",
-                                      fontSize: 50.0,
+                                      // fontFamily: "GrapeNuts",
+                                      fontSize: MediaQuery.of(context).size.width*.12,
                                       decoration: TextDecoration.none,
                                       color:
-                                          Color.fromARGB(255, 244, 240, 240))),
-                              RotateAnimatedText("music",
-                                  textStyle: const TextStyle(
+                                          const Color.fromARGB(255, 244, 240, 240))),
+                              RotateAnimatedText(" music",
+                                  textStyle:  TextStyle(
                                       fontStyle: FontStyle.italic,
-                                      fontFamily: "GrapeNuts",
-                                      fontSize: 45.0,
+                                      // fontFamily: "GrapeNuts",
+                                      fontSize:  MediaQuery.of(context).size.width*.12,
                                       decoration: TextDecoration.none,
                                       color:
-                                          Color.fromARGB(255, 239, 235, 235))),
+                                          const Color.fromARGB(255, 239, 235, 235))),
                             ])
                       ],
                     ),
                     const SizedBox(
                       height: 40.0,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Version 1.0.0',
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              decoration: TextDecoration.none,
-                              color: Colors.white60),
-                        )
-                      ],
-                    )
+                    RichText(text: const TextSpan(children: [
+                      TextSpan(text: "Proudly Made In Bro",style: TextStyle(fontSize: 20,fontFamily:"GrapeNuts" )),
+                      WidgetSpan(child:Icon(Icons.favorite,color: Color.fromARGB(255, 120, 14, 4),), ),
+                    TextSpan(text: "Camp",style: TextStyle(fontSize: 20,fontFamily:"GrapeNuts")),
+                    ]),)
                   ],
                 ),
               ),

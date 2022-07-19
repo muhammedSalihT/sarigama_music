@@ -17,6 +17,7 @@ class DbFav {
   static getAllsongs() async {
     final boxdb = await Hive.openBox('favourites');
     favsong = boxdb.values.toList();
+    favourites.value.reversed;
     displaySongs();
     favourites.notifyListeners();
   }
@@ -31,6 +32,8 @@ class DbFav {
         if (music[i] == MyHomeScreen.playlist[j].id) {
           favourites.value.add(j);
           favloop.add(MyHomeScreen.playlist[j]);
+          favourites.value.reversed;
+          favloop.reversed;
         }
       }
     }

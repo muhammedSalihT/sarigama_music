@@ -54,7 +54,6 @@ class Playlistsongcheck {
         if (MyHomeScreen.playlist[j].id == checkSong[i]) {
           selectPlaySong.value.add(j);
           playloop.add(MyHomeScreen.playlist[j]);
-          print(MyHomeScreen.playlist[j]);
           break;
         }
       }

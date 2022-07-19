@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sarigama_music1/functions/playlist_fun.dart';
+import 'package:sarigama_music1/src/home/home_screen.dart';
 import '../model/playlist_mod.dart';
 
 // ignore: must_be_immutable
@@ -33,8 +34,9 @@ class _PlaylistButtonState extends State<PlaylistButton> {
       return IconButton(
           onPressed: () async {
             widget.songlist.add(widget.id);
+            List<dynamic> newlist = widget.songlist;
             PlaylistButton.updatelist = [
-              widget.songlist,
+              newlist,
               playListNotifier.value[widget.folderindex!].songListdb
             ].expand((element) => element).toList();
             final model = PlayListModel(
@@ -49,7 +51,7 @@ class _PlaylistButtonState extends State<PlaylistButton> {
               SnackBar(
                 duration: const Duration(seconds: 2),
                 content: Text(
-                  'added song from ${playListNotifier.value[widget.folderindex!].name},',
+                  'added ${MyHomeScreen.playlist[indexCheck].title} to ${playListNotifier.value[widget.folderindex!].name},',
                   style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: const Color.fromARGB(255, 62, 62, 62),

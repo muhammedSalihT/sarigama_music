@@ -69,7 +69,7 @@ class LoginPage extends StatelessWidget {
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(20.0))),
-                                hintText: ' enter your mobile number',
+                                hintText: ' ENTER MOBILE NUMBER',
                                 hintStyle: TextStyle(color: Colors.black)),
                           
                             ),

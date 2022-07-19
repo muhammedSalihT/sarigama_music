@@ -29,7 +29,7 @@ class _ButtonsState extends State<Buttons> {
           onPressed: () async {
             await DbFav.deletion(lastIndex);
             setState(() {});
-            const snackbar = SnackBar(content: Text('remove from favourites'));
+            const snackbar = SnackBar(content: Text('remove from favourites'),duration: Duration(seconds: 1),);
             ScaffoldMessenger.of(context).showSnackBar(snackbar);
           },
           icon: const Icon(
@@ -42,7 +42,7 @@ class _ButtonsState extends State<Buttons> {
           await DbFav.addSongs(widget.id);
 
           setState(() {});
-          const snackBar = SnackBar(content: Text('add to favorites '));
+          const snackBar = SnackBar(content: Text('add to favorites '),duration: Duration(seconds: 1),);
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         icon: const Icon(Icons.favorite_border_outlined, color: Colors.grey));

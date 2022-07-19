@@ -12,7 +12,7 @@ class MyPlayListScreen extends StatefulWidget {
 }
 
 class _MyPlayListScreenState extends State<MyPlayListScreen> {
-     DateTime timeBackPressed = DateTime.now();
+  DateTime timeBackPressed = DateTime.now();
   @override
   void initState() {
     // TODO: implement initState
@@ -31,7 +31,10 @@ class _MyPlayListScreenState extends State<MyPlayListScreen> {
         timeBackPressed = DateTime.now();
         if (isExitWarning) {
           const message = 'Press back again to exit from App';
-          Fluttertoast.showToast(msg: message, fontSize: 18,backgroundColor: Color.fromARGB(188, 235, 229, 229));
+          Fluttertoast.showToast(
+              msg: message,
+              fontSize: 18,
+              backgroundColor: Color.fromARGB(188, 235, 229, 229));
           return false;
         } else {
           Fluttertoast.cancel();
@@ -41,7 +44,6 @@ class _MyPlayListScreenState extends State<MyPlayListScreen> {
       child: Scaffold(
           backgroundColor: const Color.fromARGB(0, 209, 30, 30),
           appBar: AppBar(
-            elevation: 0,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             title: Row(
@@ -80,7 +82,8 @@ class _MyPlayListScreenState extends State<MyPlayListScreen> {
               builder: (BuildContext ctx, List<PlayListModel> playList,
                   Widget? child) {
                 return GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 1,
                       mainAxisSpacing: 10,
@@ -96,11 +99,9 @@ class _MyPlayListScreenState extends State<MyPlayListScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             image: const DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/playstore.png'),
+                              image: AssetImage('assets/images/playstore.png'),
                               fit: BoxFit.fill,
                             ),
-                            shape: BoxShape.rectangle,
                           ),
                           child: GridTile(
                             child: GestureDetector(
@@ -145,14 +146,57 @@ class _MyPlayListScreenState extends State<MyPlayListScreen> {
                                 ),
                               ),
                             ),
-                            footer: IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                print(index);
-                                deleteplaylist(index);
-                              },
-                              alignment: Alignment.centerRight,
-                              color: Colors.white,
+                            footer: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext ctx) {
+                                        return AlertDialog(
+                                          backgroundColor:
+                                              const Color.fromARGB(15, 0, 0, 0),
+                                          // title: const Text(
+                                          //     'do you want to remove the song?'),
+                                          content: const Text(
+                                            'Do you want to remove the playlist?',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                                child: const Text('Cancel')),
+                                            TextButton(
+                                                onPressed: () {
+                                                  deleteplaylist(index);
+                                                  const snackBar = SnackBar(
+                                                      duration:
+                                                          Duration(seconds: 1),
+                                                      content: Text(
+                                                          'Removed from favourites'));
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar);
+                                                  Navigator.of(ctx).pop();
+                                                  // setState(() {
+                                                  //   allsong = DbFav.favloop;
+                                                  // });
+                                                },
+                                                child: const Text('Yes'))
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  alignment: Alignment.centerRight,
+                                  color: Colors.white,
+                                ),
+                              ],
                             ),
                           ));
                     });
@@ -186,7 +230,7 @@ class _MyPlayListScreenState extends State<MyPlayListScreen> {
               TextButton(
                 child: Text('CANCEL'),
                 onPressed: () {
-                   _textFieldController.clear();
+                  _textFieldController.clear();
                   Navigator.of(context).pop(MaterialPageRoute(
                       builder: (context) => MyPlayListScreen()));
                 },
@@ -198,7 +242,7 @@ class _MyPlayListScreenState extends State<MyPlayListScreen> {
                   if (_name.isNotEmpty) {
                     final _newList = PlayListModel(name: _name, songListdb: []);
                     addPlayList(_newList);
-                   _textFieldController.clear();
+                    _textFieldController.clear();
                     print(_newList);
                     Navigator.of(context).pop(MaterialPageRoute(
                       builder: (context) => MyPlayListScreen(),

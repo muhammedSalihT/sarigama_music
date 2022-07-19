@@ -90,7 +90,9 @@ class _SinglePlaylistState extends State<SinglePlaylist> {
                   return GridTile(
                     child: GestureDetector(
                       onTap: () {
-                        allsong = playloop;
+                        List<SongModel> newlist = [];
+                        newlist.addAll(playloop);
+                          allsong = newlist;
                         if (!MyHomeScreen.audioPlayer.playing ||
                             tempIndex != index) {
                           MyHomeScreen.audioPlayer.setAudioSource(
@@ -98,9 +100,9 @@ class _SinglePlaylistState extends State<SinglePlaylist> {
                               initialIndex: index);
                           tempIndex = index;
                           MyHomeScreen.audioPlayer.play();
-                          MyMusic(
-                            songs: playloop,
-                          );
+                           Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MyMusic(),
+                        ));
                         } else {
                           MyHomeScreen.audioPlayer.pause();
                         }

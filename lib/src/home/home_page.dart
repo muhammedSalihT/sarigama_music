@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         if (MyHomeScreen.playlist.isEmpty) {
           return const ExMusic();
         } else {
-          return MyMusic(songs: allsong);
+          return MyMusic();
         }
       case 3:
         return const MyPlayListScreen();
@@ -76,15 +76,15 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 50.0,
             child: Column(
-              children: const [Icon(Icons.home, size: 30), Text("Home")],
+              children: const [Icon(Icons.home, size: 30,color: Color.fromARGB(222, 5, 4, 4),), Text("Home",style: TextStyle(color: Color.fromARGB(222, 5, 4, 4)),)],
             ),
           ),
           SizedBox(
             height: 50.0,
             child: Column(
               children: const [
-                Icon(Icons.favorite, size: 30),
-                Text("Favorite")
+                Icon(Icons.favorite, size: 30,color: Color.fromARGB(222, 5, 4, 4),),
+                Text("Favorite",style: TextStyle(color: Color.fromARGB(222, 5, 4, 4)),)
               ],
             ),
           ),
@@ -93,15 +93,15 @@ class _HomePageState extends State<HomePage> {
             height: 50.0,
             child: Column(
               children: const [
-                Icon(Icons.playlist_play, size: 30),
-                Text("PlayList")
+                Icon(Icons.playlist_play, size: 30,color: Color.fromARGB(222, 5, 4, 4),),
+                Text("Playlist",style: TextStyle(color: Color.fromARGB(222, 5, 4, 4)),)
               ],
             ),
           ),
           SizedBox(
             height: 50.0,
             child: Column(
-              children: const [Icon(Icons.person, size: 30), Text("Person")],
+              children: const [Icon(Icons.person, size: 30,color: Color.fromARGB(222, 5, 4, 4),), Text("About",style: TextStyle(color: Color.fromARGB(222, 5, 4, 4)),)],
             ),
           ),
         ],

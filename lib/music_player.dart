@@ -7,12 +7,13 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sarigama_music1/src/home/home_page.dart';
 import 'package:sarigama_music1/src/home/home_screen.dart';
 
+// ignore: must_be_immutable
 class MyMusic extends StatefulWidget {
-  final List<SongModel> songs;
+  // static List<SongModel> songs;
 
-  const MyMusic({
+   MyMusic({
     Key? key,
-    required this.songs,
+    
   }) : super(key: key);
 
   @override
@@ -28,8 +29,7 @@ class _MyMusicState extends State<MyMusic> {
   int flag = 1;
   int tempindex = 666;
 
-  Color _buttonColor1 = const Color.fromARGB(255, 78, 11, 11);
-  Color _buttonColor2 = Colors.white;
+  final Color _buttonColor2 = Colors.white;
 
   @override
   void initState() {
@@ -55,15 +55,15 @@ class _MyMusicState extends State<MyMusic> {
     return WillPopScope(
       onWillPop: () async {
         final diffrence = DateTime.now().difference(timeBackPressed);
-        final isExitWarning = diffrence >= Duration(seconds: 2);
+        final isExitWarning = diffrence >= const Duration(seconds: 2);
 
         timeBackPressed = DateTime.now();
         if (isExitWarning) {
-          const message = 'Press back again to exit from App';
+          const message = 'Press back again to exit from app';
           Fluttertoast.showToast(
               msg: message,
               fontSize: 18,
-              backgroundColor: Color.fromARGB(188, 235, 229, 229));
+              backgroundColor: const Color.fromARGB(167, 15, 14, 14));
           return false;
         } else {
           Fluttertoast.cancel();
@@ -139,8 +139,7 @@ class _MyMusicState extends State<MyMusic> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.songs[currentIndex].title,
+                child: Text(allsong[currentIndex].title,
                   style: const TextStyle(
                     fontSize: 29,
                     color: Colors.white,
@@ -156,9 +155,9 @@ class _MyMusicState extends State<MyMusic> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  widget.songs[currentIndex].artist.toString() == '<unknown>'
+                  allsong[currentIndex].artist.toString() == '<unknown>'
                       ? "unknown Artist"
-                      : widget.songs[currentIndex].artist.toString(),
+                      : allsong[currentIndex].artist.toString(),
                   style: const TextStyle(
                       overflow: TextOverflow.ellipsis,
                       color: Colors.white,
@@ -314,7 +313,6 @@ class _MyMusicState extends State<MyMusic> {
           ),
           iconSize: 80,
           onPressed: () {
-            allsong = widget.songs;
             if (MyHomeScreen.audioPlayer.hasNext) {
               MyHomeScreen.audioPlayer.seekToNext();
             }
@@ -327,8 +325,8 @@ class _MyMusicState extends State<MyMusic> {
   void _updateCurrentPlayingSongDetails(int index) {
     setState(
       () {
-        if (widget.songs.isNotEmpty) {
-          currentTitle = widget.songs[index].title;
+        if ( allsong.isNotEmpty) {
+          currentTitle =  allsong[index].title;
           currentIndex = index;
         }
       },
@@ -339,7 +337,7 @@ class _MyMusicState extends State<MyMusic> {
     if (MyHomeScreen.playlist.isNotEmpty) {
       return QueryArtworkWidget(
           artworkQuality: FilterQuality.high,
-          id: widget.songs[currentIndex].id,
+          id:  allsong[currentIndex].id,
           type: ArtworkType.AUDIO,
           artworkWidth: double.infinity,
           artworkHeight: MediaQuery.of(context).size.height * .5,
@@ -350,8 +348,15 @@ class _MyMusicState extends State<MyMusic> {
           nullArtworkWidget: SizedBox(
             width: double.infinity,
             height: MediaQuery.of(context).size.height * .5,
-            child: Image.asset(
-              "assets/images/image-removebg-preview.png",
+            child: Container(
+              decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/playstore.png'),
+                              fit: BoxFit.fill,
+                            ),
+                            
+                          ),
             ),
           ));
     } else {

@@ -141,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           initialIndex: index);
                                       MyHomeScreen.audioPlayer.play();
                                       tempIndex = index;
-                                      MyMusic(songs: searchdata);
+                                      MyMusic();
                                       Navigator.of(context).pop();
                                     } else {
                                       MyHomeScreen.audioPlayer.pause();

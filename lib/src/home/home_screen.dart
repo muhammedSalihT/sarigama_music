@@ -53,15 +53,15 @@ class _MyHomeScreenState extends State<MyHomeScreen>
     return WillPopScope(
       onWillPop: () async {
         final diffrence = DateTime.now().difference(timeBackPressed);
-        final isExitWarning = diffrence >= Duration(seconds: 2);
+        final isExitWarning = diffrence >= const Duration(seconds: 2);
 
         timeBackPressed = DateTime.now();
         if (isExitWarning) {
-          const message = 'Press back again to exit from App';
+          const message = 'Press back again to exit from app';
           Fluttertoast.showToast(
               msg: message,
               fontSize: 18,
-              backgroundColor: Color.fromARGB(188, 235, 229, 229));
+              backgroundColor: const Color.fromARGB(167, 15, 14, 14));
           return false;
         } else {
           Fluttertoast.cancel();
@@ -69,9 +69,8 @@ class _MyHomeScreenState extends State<MyHomeScreen>
         }
       },
       child: Scaffold(
-        backgroundColor: Color.fromARGB(0, 209, 30, 30),
+        backgroundColor: const Color.fromARGB(0, 209, 30, 30),
         appBar: AppBar(
-          elevation: 0,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           title: Row(
@@ -93,10 +92,10 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                 width: MediaQuery.of(context).size.width * .24,
               ),
               IconButton(
-                icon: Icon(Icons.search_outlined),
+                icon: const Icon(Icons.search_outlined),
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SearchScreen()),
+                    MaterialPageRoute(builder: (context) => const SearchScreen()),
                   );
                 },
               )
@@ -108,8 +107,8 @@ class _MyHomeScreenState extends State<MyHomeScreen>
             builder: (BuildContext context, currindex, Widget? child) {
               return FutureBuilder<List<SongModel>>(
                   future: _audioQuery.querySongs(
-                    sortType: null,
-                    orderType: OrderType.ASC_OR_SMALLER,
+                    sortType: SongSortType.DATE_ADDED,
+                    orderType: OrderType.DESC_OR_GREATER,
                     uriType: UriType.EXTERNAL,
                     ignoreCase: true,
                   ),
@@ -122,7 +121,7 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                       ));
                     }
                     if (item.data!.isEmpty) {
-                      return const Center(child: Text("'Please Add Songs'"));
+                      return const Center(child: Text("Please Add Songs"));
                     }
 
                     // MyHomeScreen.playlist.clear();
@@ -148,8 +147,16 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                                     type: ArtworkType.AUDIO,
                                     artworkWidth: double.infinity,
                                     artworkHeight: double.infinity,
-                                    nullArtworkWidget: Image.asset(
-                                        'assets/images/image-removebg-preview.png'),
+                                    nullArtworkWidget: Container(
+                                    decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/playstore.png'),
+                              fit: BoxFit.fill,
+                            ),
+                            
+                          ),
+                                    ),
                                     artworkBorder: BorderRadius.circular(30),
                                   ),
                                   header: Column(
@@ -218,8 +225,7 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                                               MyHomeScreen.audioPlayer.play();
                                               currindex = index;
                                               tempIndex = index;
-                                              MyMusic(
-                                                  songs: MyHomeScreen.playlist);
+                                              MyMusic();
                                             } else {
                                               MyHomeScreen.audioPlayer.pause();
                                               // index = tempIndex;
