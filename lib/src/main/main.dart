@@ -13,11 +13,11 @@ Future<void> main() async {
       PlayListModelAdapter(),
     );
   }
-  if (!Hive.isAdapterRegistered(PlayListModelAdapter().typeId)) {
-    Hive.registerAdapter(
-      PlayListModelAdapter(),
-    );
-  }
+  // if (!Hive.isAdapterRegistered(PlayListModelAdapter().typeId)) {
+  //   Hive.registerAdapter(
+  //     PlayListModelAdapter(),
+  //   );
+  // }
   runApp(const MyApp());
 }
 
