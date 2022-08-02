@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:sarigama_music1/src/home/home_screen.dart';
+import 'package:sarigama_music1/views/home_screen.dart';
 
-import '../../functions/playlist_button.dart';
+import '../functions/playlist_button.dart';
 
 // ignore: must_be_immutable
 class Addsongs extends StatefulWidget {

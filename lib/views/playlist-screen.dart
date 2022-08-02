@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sarigama_music1/src/playlist/single_playlist.dart';
-import '../../functions/playlist_fun.dart';
-import '../../model/playlist_mod.dart';
+import 'package:sarigama_music1/views/single_playlist.dart';
+import '../functions/playlist_fun.dart';
+import '../models/playlist_mod.dart';
 
 class MyPlayListScreen extends StatefulWidget {
   const MyPlayListScreen({Key? key}) : super(key: key);

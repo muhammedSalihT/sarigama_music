@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:sarigama_music1/controllers/home_page_controller.dart';
+import 'package:sarigama_music1/controllers/home_screen_controller.dart';
 import 'package:sarigama_music1/functions/favlist_button.dart';
 import 'package:sarigama_music1/functions/song_list.dart';
-import 'package:sarigama_music1/src/home/home_page.dart';
+import 'package:sarigama_music1/views/home_page.dart';
 
-import '../../functions/fav_function.dart';
-import '../home/home_screen.dart';
+import '../controllers/favorite_controller.dart';
+import 'home_screen.dart';
 
-class MyFavouriteScreen extends StatefulWidget {
-  const MyFavouriteScreen({Key? key}) : super(key: key);
+class MyFavouriteScreen extends StatelessWidget {
+   MyFavouriteScreen({Key? key}) : super(key: key);
 
-  @override
-  State<MyFavouriteScreen> createState() => _MyFavoState();
-}
-
-class _MyFavoState extends State<MyFavouriteScreen> {
   DateTime timeBackPressed = DateTime.now();
   final controller = ScrollController();
+
+  final DbFavController dbFavController = Get.find();
+  final HomePageController homePageController = Get.find();
+  final MyHomeScreenController myHomeScreenController = Get.find();
   var tempIndex = 0;
-  @override
-  void initState() {
-    super.initState();
-    DbFav.getAllsongs();
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-       onWillPop: () async {
+      onWillPop: () async {
         final diffrence = DateTime.now().difference(timeBackPressed);
         final isExitWarning = diffrence >= const Duration(seconds: 2);
 
@@ -58,7 +56,7 @@ class _MyFavoState extends State<MyFavouriteScreen> {
                     color: Color.fromARGB(209, 78, 11, 11), fontSize: 35.0),
               ),
               Padding(
-                padding:  EdgeInsets.only(top: 13.0),
+                padding: EdgeInsets.only(top: 13.0),
                 child: Text(
                   'Favorite',
                   style: TextStyle(
@@ -69,57 +67,54 @@ class _MyFavoState extends State<MyFavouriteScreen> {
             ],
           ),
         ),
-        body: ValueListenableBuilder(
-          valueListenable: DbFav.favourites,
-          builder: (BuildContext context, List<dynamic> value, Widget? child) {
-            return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                ),
-                padding: const EdgeInsets.all(10),
-                controller: controller,
-                itemCount: value.length,
-                itemBuilder: (context, index) {
-                  return GridTile(
-                    child: GestureDetector(
-                      onTap: () {
-                        List<SongModel> newfav = [];
-                        // allsong = DbFav.favloop;
-                        if (!MyHomeScreen.audioPlayer.playing ||
-                            tempIndex != index) {
-                          MyHomeScreen.audioPlayer.setAudioSource(
-                              createSongList(DbFav.favloop),
-                              initialIndex: index);
-                          newfav.addAll(DbFav.favloop);
-                          allsong = newfav;
-                          tempIndex = index;
-                          MyHomeScreen.audioPlayer.play();
-                        } else {
-                          MyHomeScreen.audioPlayer.pause();
-                        }
-                      },
-                      child: QueryArtworkWidget(
-                        id: MyHomeScreen.playlist[value[index]].id,
-                        type: ArtworkType.AUDIO,
-                        artworkWidth: double.infinity,
-                        artworkHeight: double.infinity,
-                        nullArtworkWidget: Container(
-                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image: AssetImage('assets/images/playstore.png'),
-                              fit: BoxFit.fill,
+        body:GetBuilder<DbFavController>(
+          builder: (controller) => 
+          GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  itemCount: dbFavController.favourites.length,
+                  itemBuilder: (context, index) {
+                    return GridTile(
+                      child: GestureDetector(
+                        onTap: () {
+                          List<SongModel> newfav = [];
+                          // allsong = DbFav.favloop;
+                          if (!MyHomeScreen.audioPlayer.playing ||
+                              tempIndex != index) {
+                            MyHomeScreen.audioPlayer.setAudioSource(
+                                createSongList(dbFavController.favloop),
+                                initialIndex: index);
+                            newfav.addAll(dbFavController.favloop);
+                            allsong = newfav;
+                            tempIndex = index;
+                            MyHomeScreen.audioPlayer.play();
+                          } else {
+                            MyHomeScreen.audioPlayer.pause();
+                          }
+                        },
+                        child: QueryArtworkWidget(
+                          id: MyHomeScreen.playlist[dbFavController.favourites[index]].id,
+                          type: ArtworkType.AUDIO,
+                          artworkWidth: double.infinity,
+                          artworkHeight: double.infinity,
+                          nullArtworkWidget: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              image: const DecorationImage(
+                                image: AssetImage('assets/images/playstore.png'),
+                                fit: BoxFit.fill,
+                              ),
                             ),
-                            
                           ),
+                          artworkBorder: BorderRadius.circular(30),
                         ),
-                        artworkBorder: BorderRadius.circular(30),
                       ),
-                    ),
-                    header: Container(
+                      header: Container(
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30.0),
@@ -133,18 +128,18 @@ class _MyFavoState extends State<MyFavouriteScreen> {
                                 Color.fromARGB(0, 126, 122, 122)
                               ]),
                         ),
-                        child: 
-                        IconButton(
+                        child: IconButton(
                           onPressed: () {
                             Buttons(
-                              id: MyHomeScreen.playlist[value[index]].id,
+                              id: MyHomeScreen.playlist[dbFavController.favourites[index]].id,
                             );
-
+        
                             showDialog(
                               context: context,
                               builder: (BuildContext ctx) {
                                 return AlertDialog(
-                                  backgroundColor: const Color.fromARGB(15, 0, 0, 0),
+                                  backgroundColor:
+                                      const Color.fromARGB(15, 0, 0, 0),
                                   // title: const Text(
                                   //     'do you want to remove the song?'),
                                   content: const Text(
@@ -161,11 +156,11 @@ class _MyFavoState extends State<MyFavouriteScreen> {
                                         child: const Text('Cancel')),
                                     TextButton(
                                         onPressed: () {
-                                          DbFav.deletion(index);
+                                          dbFavController.deletion(index);
                                           const snackBar = SnackBar(
-                                            duration: Duration(seconds: 1),
-                                              content:
-                                                  Text('Removed from favourites'));
+                                              duration: Duration(seconds: 1),
+                                              content: Text(
+                                                  'Removed from favourites'));
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
                                           Navigator.of(ctx).pop();
@@ -189,34 +184,33 @@ class _MyFavoState extends State<MyFavouriteScreen> {
                             ],
                           ),
                         ),
-                        ),
-                    footer: Container(
-                      height: 35.0,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(30.0),
-                            bottomRight: Radius.circular(30.0)),
-                        gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [
-                              Color.fromARGB(190, 0, 0, 0),
-                              Color.fromARGB(128, 0, 0, 0),
-                              Color.fromARGB(10, 0, 0, 0)
-                            ]),
                       ),
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            MyHomeScreen.playlist[value[index]].title,
-                            style: const TextStyle(color: Colors.white),
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                    ),
-                  );
-                });
-          },
-        ),
+                      footer: Container(
+                        height: 35.0,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30.0),
+                              bottomRight: Radius.circular(30.0)),
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Color.fromARGB(190, 0, 0, 0),
+                                Color.fromARGB(128, 0, 0, 0),
+                                Color.fromARGB(10, 0, 0, 0)
+                              ]),
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              MyHomeScreen.playlist[dbFavController.favourites[index]].title,
+                              style: const TextStyle(color: Colors.white),
+                              overflow: TextOverflow.ellipsis,
+                            )),
+                      ),
+                    );
+                  }),
+        )
       ),
     );
   }

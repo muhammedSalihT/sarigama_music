@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query_platform_interface/details/on_audio_query_helper.dart';
 import 'package:sarigama_music1/functions/playlist_fun.dart';
-import 'package:sarigama_music1/model/playlist_mod.dart';
-import 'package:sarigama_music1/src/home/home_screen.dart';
+import 'package:sarigama_music1/models/playlist_mod.dart';
+import 'package:sarigama_music1/views/home_screen.dart';
 
 // ignore: must_be_immutable
 class AddPlaylist extends StatefulWidget {
@@ -120,7 +120,7 @@ class _AddPlaylistState extends State<AddPlaylist> {
                                       .contains(widget.id)) {
                                     Navigator.of(context).pop(MaterialPageRoute(
                                       builder: (context) =>
-                                          const MyHomeScreen(),
+                                           MyHomeScreen(),
                                     ));
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -139,7 +139,7 @@ class _AddPlaylistState extends State<AddPlaylist> {
                                         .add(widget.id);
                                     Navigator.of(context).pop(MaterialPageRoute(
                                       builder: (context) =>
-                                          const MyHomeScreen(),
+                                           MyHomeScreen(),
                                     ));
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

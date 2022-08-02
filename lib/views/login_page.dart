@@ -1,21 +1,24 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:sarigama_music1/src/home/home_page.dart';
+import 'package:get/get.dart';
+import 'package:sarigama_music1/controllers/home_screen_controller.dart';
+import 'package:sarigama_music1/views/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String sharedName = 'say';
 const String sharedNum = 'num';
 const String sharedCheck = 'check';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
+class LoginPage extends GetView {
+   LoginPage({Key? key}) : super(key: key);
+   
+  final MyHomeScreenController myHomeScreenController = Get.put(MyHomeScreenController());
   @override
   Widget build(BuildContext context) {
-  //  var _formkey;
-    final _usernamecontroler =TextEditingController();
-    final _mobileController =TextEditingController();
-   
+    //  var _formkey;
+    final _usernamecontroler = TextEditingController();
+    final _mobileController = TextEditingController();
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
@@ -36,43 +39,44 @@ class LoginPage extends StatelessWidget {
                     padding:
                         const EdgeInsets.only(top: 250.0, left: 30, right: 30),
                     child: Form(
-                    //  key: _formkey,
+                      //  key: _formkey,
                       child: Column(children: [
                         TextFormField(
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w900,
-                            ),
-                            controller: _usernamecontroler,
-                            decoration: const InputDecoration(
-                                prefix: Icon(Icons.verified_user),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                                hintText: ' ENTER USERNAME',
-                                hintStyle: TextStyle(color: Colors.black)),
-                          
-                            ),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w900,
+                          ),
+                          controller: _usernamecontroler,
+                          decoration: const InputDecoration(
+                              prefix: Icon(Icons.verified_user),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              hintText: ' ENTER USERNAME',
+                              hintStyle: TextStyle(color: Colors.black)),
+                        ),
                         const SizedBox(
                           height: 10.0,
                         ),
                         TextFormField(
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w900,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w900,
+                          ),
+                          controller: _mobileController,
+                          decoration: const InputDecoration(
+                            prefix: Icon(Icons.phone_android),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20.0),
+                              ),
                             ),
-                            controller: _mobileController,
-                            decoration: const InputDecoration(
-                                prefix: Icon(Icons.phone_android),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                                hintText: ' ENTER MOBILE NUMBER',
-                                hintStyle: TextStyle(color: Colors.black)),
-                          
-                            ),
+                            hintText: ' ENTER MOBILE NUMBER',
+                            hintStyle: TextStyle(color: Colors.black),
+                          ),
+                        ),
                         const SizedBox(
                           height: 10.0,
                         ),
@@ -98,13 +102,11 @@ class LoginPage extends StatelessWidget {
                                 sharedName,
                                 _usernamecontroler.text,
                               );
-                             shared.setString(sharedNum, _mobileController.text);
+                              shared.setString(
+                                  sharedNum, _mobileController.text);
                               shared.setBool(sharedCheck, true);
 
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: ((context) => const HomePage())),
-                              );
+                              Get.offAll( HomePage());
                             },
                             icon: const Icon(
                               Icons.login_sharp,

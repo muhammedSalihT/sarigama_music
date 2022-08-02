@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import 'fav_function.dart';
+import '../controllers/favorite_controller.dart';
 
 // ignore: must_be_immutable
-class Buttons extends StatefulWidget {
+class Buttons extends StatelessWidget {
+  final DbFavController dbFavController = Get.find();
   Buttons({Key? key, this.id}) : super(key: key);
   dynamic id;
-  @override
-  State<Buttons> createState() => _ButtonsState();
-}
 
-class _ButtonsState extends State<Buttons> {
-  @override
-  // void initState() {
-  //   setState(() {
-
-  //   });
-  //   super.initState();
-  // }
   @override
   Widget build(BuildContext context) {
-    final lastIndex =
-        DbFav.favsong.indexWhere((element) => element == widget.id);
-    final checkIndex = DbFav.favsong.contains(widget.id);
+    final lastIndex = dbFavController.favsong.indexWhere((element) => element == id);
+    final checkIndex = dbFavController.favsong.contains(id);
 
     if (checkIndex == true) {
       return IconButton(
           onPressed: () async {
-            await DbFav.deletion(lastIndex);
-            setState(() {});
-            const snackbar = SnackBar(content: Text('remove from favourites'),duration: Duration(seconds: 1),);
+            await dbFavController.deletion(lastIndex);
+            
+            const snackbar = SnackBar(
+              content: Text('remove from favourites'),
+              duration: Duration(seconds: 1),
+            );
             ScaffoldMessenger.of(context).showSnackBar(snackbar);
           },
           icon: const Icon(
@@ -39,10 +32,12 @@ class _ButtonsState extends State<Buttons> {
     }
     return IconButton(
         onPressed: () async {
-          await DbFav.addSongs(widget.id);
+          await dbFavController.addSongs(id);
 
-          setState(() {});
-          const snackBar = SnackBar(content: Text('add to favorites '),duration: Duration(seconds: 1),);
+          const snackBar = SnackBar(
+            content: Text('add to favorites '),
+            duration: Duration(seconds: 1),
+          );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         icon: const Icon(Icons.favorite_border_outlined, color: Colors.grey));

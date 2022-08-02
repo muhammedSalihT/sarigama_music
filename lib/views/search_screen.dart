@@ -1,13 +1,13 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:sarigama_music1/src/musicplayer/music_player.dart';
+import 'package:sarigama_music1/controllers/home_page_controller.dart';
+import 'package:sarigama_music1/views/music_player.dart';
 import 'package:sarigama_music1/functions/song_list.dart';
-import 'package:sarigama_music1/src/home/home_page.dart';
-import 'package:sarigama_music1/src/home/home_screen.dart';
+import 'package:sarigama_music1/views/home_page.dart';
+import 'package:sarigama_music1/views/home_screen.dart';
 
-import '../../widget/colors.dart';
+import '../widget/colors.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -20,6 +20,9 @@ class _SearchScreenState extends State<SearchScreen> {
   ValueNotifier<List<SongModel>> temp = ValueNotifier([]);
 
   final searchController = TextEditingController();
+
+  final HomePageController homePageController = Get.find();
+  
 
   int tempIndex = 0;
 
@@ -132,7 +135,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                               GestureDetector(
                                   onTap: () {
-                                    allsong = searchdata;
+                                   allsong = searchdata;
                                     // MyMusic.audioPlayer.play();
                                     if (!MyHomeScreen.audioPlayer.playing ||
                                         tempIndex != index) {

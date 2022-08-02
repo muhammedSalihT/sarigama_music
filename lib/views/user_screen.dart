@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:sarigama_music1/controllers/home_page_controller.dart';
 import 'package:sarigama_music1/functions/playlist_fun.dart';
-import 'package:sarigama_music1/src/main/login_page.dart';
-import 'package:sarigama_music1/src/main/main.dart';
-import 'package:sarigama_music1/src/home/user_detail_widget.dart';
+import 'package:sarigama_music1/views/login_page.dart';
+import 'package:sarigama_music1/src/main.dart';
+import 'package:sarigama_music1/widget/user_detail_widget.dart';
+import 'package:sarigama_music1/views/splashscreen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -122,9 +125,7 @@ class _MyScreenState extends State<MyScreen> {
                         iconData: Icons.star_border_outlined,
                         title: 'Rate our app'),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 20),
                   GestureDetector(
                     onTap: () async {
                       if (await launch(
@@ -143,9 +144,12 @@ class _MyScreenState extends State<MyScreen> {
                       final SharedPreferences sharedPreferences =
                           await SharedPreferences.getInstance();
                       sharedPreferences.clear();
+                      Get.find<HomePageController>().page = 0;
                       resetApp();
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => MyApp()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SplashScreen()));
                     },
                     child: UserDetailsWidget(
                         iconData: Icons.exit_to_app_outlined, title: 'Logout'),

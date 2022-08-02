@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter/material.dart';
-import 'package:sarigama_music1/model/playlist_mod.dart';
-import 'package:sarigama_music1/src/home/home_screen.dart';
+import 'package:sarigama_music1/models/playlist_mod.dart';
+import 'package:sarigama_music1/views/home_screen.dart';
 
 ValueNotifier<List<PlayListModel>> playListNotifier = ValueNotifier([]);
 List<SongModel> playloop = [];

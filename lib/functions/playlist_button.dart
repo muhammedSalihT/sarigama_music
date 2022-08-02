@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sarigama_music1/functions/playlist_fun.dart';
-import 'package:sarigama_music1/src/home/home_screen.dart';
-import '../model/playlist_mod.dart';
+import 'package:sarigama_music1/views/home_screen.dart';
+import '../models/playlist_mod.dart';
 
 // ignore: must_be_immutable
 class PlaylistButton extends StatefulWidget {

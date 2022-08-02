@@ -1,48 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:on_audio_query/on_audio_query.dart';
+import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:sarigama_music1/src/musicplayer/music_player.dart';
-import 'package:sarigama_music1/src/home/search_screen.dart';
+import 'package:on_audio_query/on_audio_query.dart';
+import 'package:sarigama_music1/controllers/favorite_controller.dart';
+import 'package:sarigama_music1/controllers/home_page_controller.dart';
+import 'package:sarigama_music1/controllers/home_screen_controller.dart';
+import 'package:sarigama_music1/functions/favlist_button.dart';
+import 'package:sarigama_music1/views/music_player.dart';
+import 'package:sarigama_music1/views/search_screen.dart';
 import 'package:sarigama_music1/functions/song_list.dart';
-import 'package:sarigama_music1/src/home/home_page.dart';
+import 'package:sarigama_music1/views/home_page.dart';
 import 'add_playlist.dart';
-import '../../functions/favlist_button.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
-class MyHomeScreen extends StatefulWidget {
-  static AudioPlayer audioPlayer = AudioPlayer();
+class MyHomeScreen extends StatelessWidget {
+  MyHomeScreen({Key? key}) : super(key: key);
 
-  const MyHomeScreen({Key? key}) : super(key: key);
+  final MyHomeScreenController myHomeScreenController =
+      Get.put(MyHomeScreenController());
+  final DbFavController dbFavController = Get.find();
+  final HomePageController homePageController = Get.find();
+
   static List<SongModel> playlist = [];
 
-  @override
-  State<MyHomeScreen> createState() => _MyHomeScreenState();
-}
-
-class _MyHomeScreenState extends State<MyHomeScreen>
-    with SingleTickerProviderStateMixin {
-  DateTime timeBackPressed = DateTime.now();
-  final OnAudioQuery _audioQuery = OnAudioQuery();
-
-  @override
-  void initState() {
-    super.initState();
-    requestPermission();
-  }
-
-  requestPermission() async {
-    if (!kIsWeb) {
-      bool permissionStatus = await _audioQuery.permissionsStatus();
-      if (!permissionStatus) {
-        await _audioQuery.permissionsRequest();
-      }
-      setState(() {});
-    }
-  }
+  static AudioPlayer audioPlayer = AudioPlayer();
 
   int tempIndex = 0;
-  ValueNotifier<int> currentPlayingIndexNotifier = ValueNotifier(-1);
 
   pauseSong() {
     MyHomeScreen.audioPlayer.stop();
@@ -50,6 +33,8 @@ class _MyHomeScreenState extends State<MyHomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    print("object");
+    DateTime timeBackPressed = DateTime.now();
     return WillPopScope(
       onWillPop: () async {
         final diffrence = DateTime.now().difference(timeBackPressed);
@@ -69,44 +54,43 @@ class _MyHomeScreenState extends State<MyHomeScreen>
         }
       },
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(0, 209, 30, 30),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          title: Row(
-            children: [
-              const Text(
-                'Sarigama',
-                style: TextStyle(
-                    color: Color.fromARGB(209, 78, 11, 11), fontSize: 35.0),
-              ),
-              const Padding(
-                  padding: EdgeInsets.only(top: 13.0),
-                  child: Text(
-                    'music',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 250, 250, 250),
-                        fontSize: 15.0),
-                  )),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * .24,
-              ),
-              IconButton(
-                icon: const Icon(Icons.search_outlined),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const SearchScreen()),
-                  );
-                },
-              )
-            ],
+          backgroundColor: const Color.fromARGB(0, 209, 30, 30),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            title: Row(
+              children: [
+                const Text(
+                  'Sarigama',
+                  style: TextStyle(
+                      color: Color.fromARGB(209, 78, 11, 11), fontSize: 35.0),
+                ),
+                const Padding(
+                    padding: EdgeInsets.only(top: 13.0),
+                    child: Text(
+                      'music',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 250, 250, 250),
+                          fontSize: 15.0),
+                    )),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .24,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.search_outlined),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const SearchScreen()),
+                    );
+                  },
+                )
+              ],
+            ),
           ),
-        ),
-        body: ValueListenableBuilder(
-            valueListenable: currentPlayingIndexNotifier,
-            builder: (BuildContext context, currindex, Widget? child) {
-              return FutureBuilder<List<SongModel>>(
-                  future: _audioQuery.querySongs(
+          body: GetBuilder<MyHomeScreenController>(
+              builder: (controller) => FutureBuilder<List<SongModel>>(
+                  future: myHomeScreenController.audioQuery.querySongs(
                     sortType: SongSortType.DATE_ADDED,
                     orderType: OrderType.DESC_OR_GREATER,
                     uriType: UriType.EXTERNAL,
@@ -124,8 +108,12 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                       return const Center(child: Text("Please Add Songs"));
                     }
 
-                    // MyHomeScreen.playlist.clear();
+                    print(MyHomeScreen.playlist);
+
                     MyHomeScreen.playlist = item.data!;
+                    print(MyHomeScreen.playlist);
+                    allsong = MyHomeScreen.playlist;
+                    print(allsong);
 
                     return GridView.builder(
                         gridDelegate:
@@ -148,14 +136,14 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                                     artworkWidth: double.infinity,
                                     artworkHeight: double.infinity,
                                     nullArtworkWidget: Container(
-                                    decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                              image: AssetImage('assets/images/playstore.png'),
-                              fit: BoxFit.fill,
-                            ),
-                            
-                          ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        image: const DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/playstore.png'),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
                                     ),
                                     artworkBorder: BorderRadius.circular(30),
                                   ),
@@ -223,7 +211,7 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                                                               .playlist),
                                                       initialIndex: index);
                                               MyHomeScreen.audioPlayer.play();
-                                              currindex = index;
+                                              // currindex = index;
                                               tempIndex = index;
                                               MyMusic();
                                             } else {
@@ -262,9 +250,7 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                             ],
                           );
                         });
-                  });
-            }),
-      ),
+                  }))),
     );
   }
 }

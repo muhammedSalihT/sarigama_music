@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:sarigama_music1/controllers/home_page_controller.dart';
 import 'package:sarigama_music1/functions/song_list.dart';
-import 'package:sarigama_music1/src/home/home_page.dart';
-import 'package:sarigama_music1/src/home/home_screen.dart';
-import '../home/add_songs.dart';
-import '../../functions/playlist_fun.dart';
+import 'package:sarigama_music1/views/home_screen.dart';
+import 'package:sarigama_music1/views/home_page.dart';
+import 'add_songs.dart';
+import '../functions/playlist_fun.dart';
 import 'package:just_audio/just_audio.dart';
-import '../musicplayer/music_player.dart';
+import 'music_player.dart';
 
 class SinglePlaylist extends StatefulWidget {
   const SinglePlaylist({Key? key, required this.folderIndex, int? id})
@@ -20,10 +22,12 @@ class SinglePlaylist extends StatefulWidget {
 
 class _SinglePlaylistState extends State<SinglePlaylist> {
   AudioPlayer audioPlayer = AudioPlayer();
+
+  final HomePageController homePageController = Get.find();
+  
   int tempIndex = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getAllPlaylist();
   }
@@ -92,7 +96,7 @@ class _SinglePlaylistState extends State<SinglePlaylist> {
                       onTap: () {
                         List<SongModel> newlist = [];
                         newlist.addAll(playloop);
-                          allsong = newlist;
+                         allsong = newlist;
                         if (!MyHomeScreen.audioPlayer.playing ||
                             tempIndex != index) {
                           MyHomeScreen.audioPlayer.setAudioSource(
