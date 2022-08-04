@@ -6,7 +6,6 @@ class MyHomeScreenController extends GetxController {
   final OnAudioQuery audioQuery = OnAudioQuery();
 
   
-
   @override
   void onInit() {
     requestPermission();

@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String sharedName = 'say';
 const String sharedNum = 'num';
-const String sharedCheck = 'check';
+const String sharedCheck = 'cheking';
 
 class LoginPage extends GetView {
    LoginPage({Key? key}) : super(key: key);
